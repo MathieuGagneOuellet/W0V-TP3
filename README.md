@@ -25,7 +25,7 @@
   
 - `Magicien`, possede plusieurs grimoire, a des ecoles de magies, un niveau, un apparence, etc.
   - Fonctions creerMagicien() 
-- `Grimoire`, possede plusieurs sorts, appartient a un magicien mais peu etre null.
+- `Grimoire`, possede plusieurs sorts, a des ecoles de magies, appartient a un magicien mais peu etre null.
   - Fonction creerGrimoire()
 - `Sort`, possede contient plusieurs effets, a un niveau et un ecole
   - Fonction creerSort()
