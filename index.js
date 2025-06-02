@@ -20,9 +20,11 @@ app.use(ErrorHandler.throwError);
 
 mongoose
   .connect(process.env.MONGODB_URI)
-  .then(() => console.log("MongoDB good"))
+  .then(() => {
+        console.log("MongoDB good");
+        app.listen(PORT, () => {
+            console.log(`Serveur démarré sur http://localhost:${PORT}`);
+            });
+    })
   .catch((err) => console.error("Erreur MongoDB :", err));
 
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
-});
