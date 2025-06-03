@@ -1,11 +1,11 @@
 import Mongoose from "mongoose";
 
 const SortSchema = new Mongoose.Schema({
-  name: {
+  nom: {
     type: String,
     required: true
   },
-  level: {
+  niveau: {
     type: Number,
     required: false
   },

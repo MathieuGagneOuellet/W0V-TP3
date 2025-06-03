@@ -32,12 +32,38 @@
 - `Effet`, decris l'effet d'un sort. (Type, ecole, bon ou mauvais, etc)
   - Fonction creerEffect()
 
+## 2.2 Model mongoose
 
-## 2.2 Implementer les fonctionaliters metiers autres tel que:
-  - ajouterSortAuGrimoire()
-  - acquerirGrimoire()
-  - lancerSort()
-  - genereEffetsAleatoires()
+  ### EffetModel
+  - _id (ObjectId), 
+  - description (objet JS multilingue)
+  - ecole (String)
+  - types ([String])
+
+  ### SortModel
+  - _id (ObjectId)
+  - nom (objet JS multilingue)
+  - niveau (Number)
+  - ecole (String)
+  - effets ([EffetModel.ObjectId, ref: "effet"])
+
+  ### GrimoireModel
+  - _id (ObjectId)
+  - nom (objet JS multilingue)
+  - ecoles ([String])
+  - sort ([SortModel]) 
+  - propietaire (idMagicien || null)
+
+ ### MagicienModel
+  - _id (ObjectId)
+  - nom (objet JS multilingue)
+  - apparence (Objet JS)
+  - statistique (Objet JS) 
+  - niveau (Number)
+  - ecoles ([String]) , conditions au moins une.
+  - alignement (String)
+  - grimoires ([GrimoireModel.ObjectId])
+
 
 ## 2.3 Entrees et sorties des fonctions
   ### Fonction creerMagicien(magicienObj)
@@ -117,38 +143,12 @@
   - regles: Le sort doit etre dans un des grimoires du magiciens. L'ecole doit etre apprise par le magicien. Le niveau du magicien doit etre superier ou egale au niveau du sort.
   - retour: Objet de resultat (succes, effets declenches ou erreur metier)
 
- ## 2.4 Model mongoose
-
-  ### EffetModel
-  - _id (ObjectId), 
-  - description (objet JS multilingue)
-  - ecole (String)
-  - types ([String])
-
-  ### SortModel
-  - _id (ObjectId)
-  - nom (objet JS multilingue)
-  - niveau (Number)
-  - ecole (String)
-  - effets ([EffetModel.ObjectId, ref: "effet"])
-
-  ### GrimoireModel
-  - _id (ObjectId)
-  - nom (objet JS multilingue)
-  - ecoles ([String])
-  - sort ([SortModel]) 
-  - propietaire (idMagicien || null)
-
- ### MagicienModel
-  - _id (ObjectId)
-  - nom (objet JS multilingue)
-  - apparence (Objet JS)
-  - statistique (Objet JS) 
-  - niveau (Number)
-  - ecoles ([String]) , conditions au moins une.
-  - alignement (String)
-  - grimoires ([GrimoireModel.ObjectId])
-
+## 2.4 Implementer les fonctionaliters metiers autres tel que:
+  
+  - ajouterSortAuGrimoire()
+  - acquerirGrimoire()
+  - lancerSort()
+  - genereEffetsAleatoires()
 
 ##  Phase 3 – Contrôleurs et Routes
 
