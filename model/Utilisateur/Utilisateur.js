@@ -14,9 +14,12 @@ class Utilisateur {
 
   async sauvegarder() {
     try {
-      const utilisateur = new UtilisateurModel(
-
-      )
+      const utilisateur = new UtilisateurModel({
+        nomUtilisateur: this.nomUtilisateur,
+        motDePasse: this.motDePasse,
+        role: this.role
+      })
+      return await utilisateur.save();
     } catch (error) {
       throw new ErrorHandler.AppError(400, `Erreur pendant la sauvegarde: ${error.message}`, true);
     }
