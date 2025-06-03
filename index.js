@@ -35,4 +35,3 @@ mongoose
   })
 
   .catch((err) => console.error("Erreur MongoDB :", err));
-

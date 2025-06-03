@@ -5,7 +5,7 @@ const SortSchema = new Mongoose.Schema({
     fr: {type: String, required: true},
     en: {type: String, required: true}
   },
-  level: {
+  niveau: {
     type: Number,
     required: false
   },
