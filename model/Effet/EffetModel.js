@@ -2,8 +2,8 @@ import Mongoose from "mongoose";
 
 const effetSchema = new Mongoose.Schema({
   nom: {
-    type: String,
-    required: true
+    fr: {type: String, required: true},
+    en: {type: String, required: true}
   },
   niveau: {
     type: Number,
