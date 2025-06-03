@@ -1,262 +1,156 @@
 ### Planification TP3 – Monde Magique / RESTFUL Api / Structure MVC
 
+---
 # Phase 1 - Middlewares
 
-## 1.1 Implementer le middleware d'erreur
+### 1.1 Middleware d'erreur
 - Importation du middleware custom d'Alex
+- Gestion des erreurs avec Winston
 
-## 1.2 Implementer le middleware de langue (Francais, anglais, elfique)
+### 1.2 Middleware de langue (Francais, anglais, elfique)
 - Fichiers : `fr.json`, `en.json`, `el.json`
 - Chargé via le middleware Express (`i18n.init`)
-- Exemple de structure typique :
-  ```json
-  {
-    "fireball": {
-      "fr": "Boule de feu",
-      "en": "Fireball",
-      "el": "Naurnîn"
-    }
-  }
-  ```
+- Traduction des messages client, écoles, effets, alignements
 
+---
 # Phase 2 – Modèles et schema Mongoose
 
-## 2.1 Coder les classes et constructeur de base
-  
-- `Magicien`, possede plusieurs grimoire, a des ecoles de magies, un niveau, un apparence, etc.
-  - Fonctions creerMagicien() 
-- `Grimoire`, possede plusieurs sorts, a des ecoles de magies, appartient a un magicien mais peu etre null.
-  - Fonction creerGrimoire()
-- `Sort`, possede contient plusieurs effets, a un niveau et un ecole
-  - Fonction creerSort()
-- `Effet`, decris l'effet d'un sort. (Type, ecole, bon ou mauvais, etc)
-  - Fonction creerEffect()
+### 2.1 Modèles de base
 
-## 2.2 Model mongoose
+- User : username, password (non chiffré), role (admin, mage)
+- Magicien : userId, nom, apparence, stats, niveau, écoles, alignement, grimoires
+- Grimoire : nom, écoles, sorts, propriétaire
+- Sort : nom, niveau, école, effets
+- Effet : description, école, types
 
-  ### EffetModel
-  - _id (ObjectId), 
-  - description (objet JS multilingue)
-  - ecole (String)
-  - types ([String])
+### 2.2 Règles métier à implémenter
 
-  ### SortModel
-  - _id (ObjectId)
-  - nom (objet JS multilingue)
-  - niveau (Number)
-  - ecole (String)
-  - effets ([EffetModel.ObjectId, ref: "effet"])
+- Niveau du sort ≤ niveau du magicien
+- École du sort ∈ écoles du magicien
+- Sorts du grimoire doivent être dans ses écoles
+- Seul l’auteur ou un admin peut modifier un grimoire
+- Lancer un sort : magicien doit connaître l’école, posséder le sort, avoir le bon niveau
 
-  ### GrimoireModel
-  - _id (ObjectId)
-  - nom (objet JS multilingue)
-  - ecoles ([String])
-  - sort ([SortModel]) 
-  - propietaire (idMagicien || null)
+### 2.3 Fonctions métiers principales
 
- ### MagicienModel
-  - _id (ObjectId)
-  - nom (objet JS multilingue)
-  - apparence (Objet JS)
-  - statistique (Objet JS) 
-  - niveau (Number)
-  - ecoles ([String]) , conditions au moins une.
-  - alignement (String)
-  - grimoires ([GrimoireModel.ObjectId])
+- creerMagicien( magicienObj )
+- creerSort( idMagicien, sortObj )
+- creerGrimoire( idMagicien, grimoireObj )
+- ajouterSortAuGrimoire( idMagicien, idGrimoire, idSort )
+- acquerirGrimoire( idMagicien, idGrimoire )
+- lancerSort( idMagicien, idSort )
+- genereEffetsAleatoires()
 
-
-## 2.3 Entrees et sorties des fonctions
-  ### Fonction creerMagicien(magicienObj)
-  - parametre: 
-  ```JSON
-  {
-    "nom": { fr: "Jean-Mage", en: "John Mage", el: "Jh’Mazh" },
-    "apparence": { cheveux: "longs", couleurCheveux: "gris", robe: "bleue" },
-    "caractéristiques": { force: 10, intelligence: 15 },
-    "niveau": Number,
-    "écoles": ["illusion", "évocation"],
-    "alignement": "chaotique bon"
-  }
-  ```
-  - retour: Un objet de type magicien avec `_id` et `grimoires = []`
-  
-  ### Fonction creerSort(idMagicien, sortObj)
-  - parametre:
-  ```JSON
-  {
-    "nom": { fr: "", en: "", el: ""},
-    "niveau": Number,
-    "ecole": "string",
-    "effets":[ new Object.Effet, Effet secondaire peut etre? ]
-  }
-   
-  Aleatoire
-  {
-    "nom": { fr: "", en: "", el: ""}, 
-  }
-
-  ```
-  - retour: Un sort generer avec ces effets ou erreur si regles metiers son non respectees.
-  
-  ### Fonction creerGrimoire(idMagicien, grimoireObj)
-  - parametre:
-  ```JSON
-  {
-    "nom": { "fr": "Grimoire de base"},
-    "ecoles": ["Illusions"],
-    "sorts": ["Tous les sorts valides de cette ecoles"]
-  }
-  ```
-  - retour: Un grimoire sauvegarder avec un proprietaire = Magicien
-
-  ### Fonction ajouterSortAuGrimoire(idMagicien, idGrimoire, idSort) 
-  - parametre:
-  ```JSON
-  {
-    "idMagicien": _id.Magicien,
-    "idGrimoire": _id.Grimoire,
-    "idSort": _id.Sort
-  }
-  ```
-  - regles: Le magicien doit etre proprietaire du grimoire et si l'ecole du sort n'apartient pas aux ecoles du grimoire, elle y est ajoutee.
-    
-  - retour: Un grimoire mis a jour.
-
-  ### Fonction acquerirGrimoire(idMagicien, idGrimoire)
-  - parametre: 
-  ```JSON
-  {
-    "idMagicien": _id.Magicien,
-    "idGrimoire": _id.Grimoire
-  }
-  ```
-  - retour: L'objet magicien est mis a jour avec le grimoire ajouter.
-
-  ### Fonction lancerSort(idMagicien, idSort)
-  - parametre: 
-  ```JSON
-  {
-    "idMagicien": _id.Magicien,
-    "idSort": _id.Sort
-  }
-  ```
-  - regles: Le sort doit etre dans un des grimoires du magiciens. L'ecole doit etre apprise par le magicien. Le niveau du magicien doit etre superier ou egale au niveau du sort.
-  - retour: Objet de resultat (succes, effets declenches ou erreur metier)
-
-## 2.4 Implementer les fonctionaliters metiers autres tel que:
-  
-  - ajouterSortAuGrimoire()
-  - acquerirGrimoire()
-  - lancerSort()
-  - genereEffetsAleatoires()
-
-##  Phase 3 – Contrôleurs et Routes
-
-### 3.1 Effet
-
-- `GET - /api/effets`
-  -> Route seulement pour des raisons de debug et de developpement seulement
-
-### 3.2 Sort
-
-- `GET - /api/sorts`
-  -> Obtenir tous les sorts
-
-- `GET - /api/sorts/:id`
-  -> Obtenir un sort spécifique
-
-### 3.3 Grimoire
-
-- `POST - /api/grimoires/:id/sorts`
-  -> Ajouter un sort a un grimoire
-
-- `GET - /api/grimoires`
-  -> Obtenir tous les grimoires
-
-- `GET - /api/grimoires/:id`
-  -> Obtenir un grimoire spécifique
-
-### 3.4 Magicien
-- `POST - /api/magiciens/create`
-  -> Creer un magicien
-
-- `POST /api/magiciens/:id/sorts`  
-  -> Créer un sort (manuel ou aléatoire)
-
-- `POST - /api/magiciens/:id/grimoires`
-  -> Creer un grimoire pour un magicien
-
-- `POST - /api/magiciens/:id/ajout/:grimoire`
-  -> Ajouter une grimoire existant
-
-- `POST /api/magiciens/:id/lancer/:sortId`  
-  -> Lancer un sort (vérifie niveau + école)
-
-- `GET /api/magiciens`
-  -> Obtenir tous les magiciens
-
-- `GET /api/magiciens/:id`
-  -> Obtenir un magicien spécifique
-
-- `GET /api/magiciens/:id/grimoires`
-  -> Eager fetch d'un magiciens avec les details des grimoires
-
-- `PUT /api/magiciens/`
-  -> A definir WIP
-
-- `DEL /api/magiciens/:id`
-  -> Supprimer un magicien
-
-
-## Phase 4 – WIP Logger
-
-- Recherche sur le module **Winston**
-
-## Phase 5 – Tests
-
-- Utilisation d'une suite de testes sur Postman 
-
----
-
-## Phase 6 – Verification finales
-
-- A vérifier :
-  - Architecture MVC respectée
-  - Logs présents pour toutes actions
-  - Aucune donnée sensible commise (dans `.env`)
-  - README complet
-
----
-
-## Phase 7 - Remise finale
-
-- Commit avec un tag "REMISE FINALE"
-
-
-## Exemples d’objets
+### 2.4 Exemple d'entrée JSON
 
 ```json
-// Magicien
 {
-  "id": Un id fix de 24 charactere de type MongoDb,
-  "nom": "Gandalf",
-  "apparance": { "cheveu": "long", "couleurCheveu": "gris", "linge": "blanc" },
-  "statistique": { "force": 12, "intelligence": 18 },
-  "niveau": 10,
-  "ecoles": ["illusion", "divination"],
-  "alignement": "Bon"
+  "nom": { "fr": "Jean-Mage", "en": "John Mage", "el": "Jh’Mazh" },
+  "apparence": { "cheveux": "longs", "couleurCheveux": "gris", "robe": "bleue" },
+  "statistique": { "force": 10, "intelligence": 15 },
+  "niveau": 5,
+  "ecoles": ["illusion", "restauration"],
+  "alignement": "chaotique bon"
+}
+```
+
+# Phase 3 – Authentification
+
+### 3.1 Routes
+
+- POST /api/register : créer un utilisateur
+- POST /api/login : retourner un token JWT
+
+### 3.2 Middleware d'authentification
+
+- Protège les routes de création et modification
+- Vérifie si l’utilisateur est admin ou créateur
+
+### 3.3 Ajouts à la structure
+
+- Ajout de userId dans le modèle Magicien
+- Vérification du token JWT dans les headers
+- Rôle : admin ou mage
+
+---
+# Phase 4 – Contrôleurs et Routes
+
+### 4.1 Effet
+
+- GET /api/effets : route de debug seulement
+
+### 4.2 Sort
+
+- GET /api/sorts
+- GET /api/sorts/:id
+
+### 4.3 Grimoire
+
+- GET /api/grimoires
+- GET /api/grimoires/:id
+- POST /api/grimoires/:id/sorts (protégé)
+
+### 4.4 Magicien
+
+- GET /api/magiciens
+- GET /api/magiciens/:id
+- GET /api/magiciens/:id/grimoires
+- POST /api/magiciens/create (protégé)
+- POST /api/magiciens/:id/sorts
+- POST /api/magiciens/:id/grimoires (protégé)
+- POST /api/magiciens/:id/ajout/:grimoire
+- POST /api/magiciens/:id/lancer/:sortId
+- PUT /api/magiciens/ (WIP)
+- DELETE /api/magiciens/:id
+
+---
+# Phase 5 – Logger
+
+- Winston utilisé
+- Logger chaque action d’un magicien
+- Logger chaque erreur (try/catch)
+- Aucun console.log (sauf démarrage serveur ou debug validé)
+
+---
+# Phase 6 – Tests
+
+- Utilisation de Postman
+- Vérification des cas d’authentification
+- Traduction via header Accept-Language
+- Cas de refus d’accès (non-propriétaire, non-admin)
+
+---
+# Phase 7 – Vérification finales
+
+- Architecture MVC respectée
+- Validation métier appliquée
+- Logger présent
+- Traductions correctes
+- README complet
+- Fichier `.env.example` fourni
+
+---
+# Phase 8 – Remise finale
+
+- Branches mergées dans main
+- Tag : REMISE
+- Dernier push avant 13 juin minuit
+
+---
+# Exemples d’objets
+
+```json
+{
+  "username": "jeanmage",
+  "password": "123456",
+  "role": "mage"
 }
 ```
 
 ```json
-// Sort
 {
-  "id": Un id fix de 24 charactere de type MongoDb,
-  "nom": "Create Water",
-  "ecole": "abjuration",
-  "niveau": 1,
-  "effets": [
-    { "description": "Crée de l'eau pure", "ecole": "abjuration", "types": ["bon"] }
-  ]
+  "description": { "fr": "Inflige une douleur mentale", "en": "Inflicts mental pain" },
+  "school": "illusion",
+  "types": ["chaotique", "mauvais"]
 }
 ```
