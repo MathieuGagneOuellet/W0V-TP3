@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import ErrorHandler from "./middleware/ErrorHandler.js";
 import detecterLangue from "./middleware/i18nMiddleware.js";
+import MagicienRouter from "./routes/MagicienRouter.js";
+import { initialiserDB } from "./config/initialiserDB.js";
+
 dotenv.config();
 
 const app = express();
@@ -16,15 +19,20 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "status 200 good" });
 });
 
+app.use("/api/magiciens", MagicienRouter);
 app.use(ErrorHandler.throwError);
 
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("MongoDB good");
-    app.listen(PORT, () => {
-      console.log(`Serveur démarré sur http://localhost:${PORT}`);
-    });
+    return initialiserDB(); //retour de la promesse
   })
+  .then(() => {
+      app.listen(PORT, () => {
+      console.log(`Serveur démarré sur http://localhost:${PORT}`);
+    })
+  })
+
   .catch((err) => console.error("Erreur MongoDB :", err));
 

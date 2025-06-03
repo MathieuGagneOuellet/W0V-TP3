@@ -1,9 +1,9 @@
 import Mongoose from "mongoose";
 
 const SortSchema = new Mongoose.Schema({
-  name: {
-    type: String,
-    required: true
+  nom: {
+    fr: {type: String, required: true},
+    en: {type: String, required: true}
   },
   level: {
     type: Number,
@@ -13,11 +13,11 @@ const SortSchema = new Mongoose.Schema({
     type: String,
     required: false
   },
-  effet: {
+  effet: [{
     type: Mongoose.Schema.Types.ObjectId,
     required: false,
     ref: 'Effet'
-  }
+  }]
 });
 
 const SortModel = Mongoose.model("Sort", SortSchema);
