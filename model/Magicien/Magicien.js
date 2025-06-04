@@ -1,6 +1,6 @@
 import ErrorHandler from "../../middleware/ErrorHandler.js";
 import MagicienModel from "./MagicienModel.js"
-import ValeursPermise from "../../utils/ValeursPermise.js";
+import logger from "../../utils/logger.js"
 
 class Magicien {
   nom;
@@ -48,10 +48,11 @@ class Magicien {
     this.grimoires = objet.grimoires || [];
   }
 
-  validateMagicien() {
+  validerMagicien() {
     // nom
-    if (!this.nom || typeof this.nom !== 'string' || this.nom.length < 3)
-      throw new ErrorHandler.AppError(400, "Le nom est invalide, il doit etre une string et au minimum 3 caracteres.");
+    // TODO Valider les nom selon francais/anglais
+    // if (!this.nom || typeof this.nom !== 'string' || this.nom.length < 3)
+    //   throw new ErrorHandler.AppError(400, "Le nom est invalide, il doit etre une string et au minimum 3 caracteres.");
 
     // niveau
     if (!this.niveau || typeof this.niveau !== 'number' || this.niveau < 1 || this.niveau > 20)
@@ -87,21 +88,33 @@ class Magicien {
   }
 
   static creerMagicien(req, res, next) {
-    if (!req.body || !isObject(req.body))
+    if (!req.body || typeof value === "object")
       throw new ErrorHandler.AppError(400, `Le corps de la requete est invalide.`)
 
-    const magicien = req.body;
-    magicien
-      .validateMagicien()
+    const magicien = new Magicien(req.body);
+    magicien.validerMagicien()
       .then(() => {
-
-        const nouveauMagicien = new Magicien(magicien)
         magicien.sauvegarder()
 
+        logger.info("test");
         res.status(201).json(nouveauMagicien);
       })
       .catch(next(erreur))
   }
+
+  static obtenirTous(req, res, next) {
+    try {
+      const magiciens = MagicienModel.find();
+      return magiciens;
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static obtenirUn(req, res, next) {
+    Magicien.findById(req.id);
+  }
+
 }
 
 export default Magicien;

@@ -25,11 +25,11 @@ app.use(ErrorHandler.throwError);
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log("MongoDB good");
+    console.log("MongoDB connecté!");
     return initialiserDB(); //retour de la promesse
   })
   .then(() => {
-      app.listen(PORT, () => {
+    app.listen(PORT, () => {
       console.log(`Serveur démarré sur http://localhost:${PORT}`);
     })
   })
