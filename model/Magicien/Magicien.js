@@ -98,7 +98,7 @@ class Magicien {
         const nouveauMagicien = new Magicien(magicien)
         magicien.sauvegarder()
 
-        res.status(200).json(nouveauMagicien);
+        res.status(201).json(nouveauMagicien);
       })
       .catch(next(erreur))
   }
