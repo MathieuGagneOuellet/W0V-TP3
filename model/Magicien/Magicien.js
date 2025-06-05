@@ -1,7 +1,9 @@
-import ErrorHandler from "../../middleware/ErrorHandler.js";
+import { Types } from "mongoose";
 import { traduire } from "../../middleware/FonctionTraduire.js"
+import ErrorHandler from "../../middleware/ErrorHandler.js";
 import logger from "../../utils/logger.js"
 import MagicienModel from "./MagicienModel.js"
+import Valeurs from "../../utils/valeurs.js";
 
 class Magicien {
   nom;
@@ -59,30 +61,13 @@ class Magicien {
       throw new ErrorHandler.AppError(400, "Le niveau est invalide, il doit etre entre 1 et 20.");
 
     // ecole must be Array
-    const ecolesMagiques = [
-      "mysticisme",
-      "alteration",
-      "restauration",
-      "conjuration",
-      "destruction",
-      "illusion"
-    ];
+    const ecolesMagiques = Valeurs.ecoles;
     if (!this.ecole || !Array.isArray(this.ecole) ||
       !this.ecole.every(ecole => ecolesMagiques.includes(ecole.toLowerCase())))
       throw new ErrorHandler.AppError(400, "Les ecoles sont invalide, veuillez verifier votre requete.");
 
     // alignement
-    const alignements = [
-      "loyal bon",
-      "neutre bon",
-      "chaotique bon",
-      "loyal neutre",
-      "neutre",
-      "chaotique neutre",
-      "loyal mauvais",
-      "neutre mauvais",
-      "chaotique auvais"
-    ];
+    const alignements = Valeurs.alignements;
     if (!this.alignement || !alignements.includes(this.alignement.toLowerCase()))
       throw new ErrorHandler.AppError(400, "L'alignement est invalide, veuillez verifier votre requete.");
   }
@@ -105,15 +90,14 @@ class Magicien {
   }
 
   static creerMagicien(req, res, next) {
-    if (!req.body || typeof value === "object")
-      throw new ErrorHandler.AppError(400, traduire(req.langue, "creer_magicien_erreur"), true)
+    const requete = req.body;
+    if (!requete || typeof requete !== "object")
+      throw new ErrorHandler.AppError(400, "creer_magicien_erreur", true)
 
     const magicien = new Magicien(req.body);
     magicien.validerMagicien()
       .then(() => {
         magicien.sauvegarder()
-
-
         res.status(201).json(magicien);
       })
       .catch(erreur => {
@@ -127,7 +111,7 @@ class Magicien {
     try {
       const magiciens = await MagicienModel.find();
       if (!magiciens) {
-        throw new ErrorHandler.AppError(400, traduire(req.langue, "magicien_introuvable"), true)
+        throw new ErrorHandler.AppError(400, traduire(req.langue, "magiciens_inacessible"), true)
       };
 
       res.status(200).json(magiciens);
@@ -136,19 +120,46 @@ class Magicien {
 
   static async obtenirMagicien(req, res, next) {
     try {
-      const magicien = await MagicienModel.findById(req.params.id).populate("grimoires");
+      const magicien = await MagicienModel.findById(req.params.id).populate("grimoirea");
       if (!magicien) {
-        throw new ErrorHandler.AppError(400, traduire(req.langue, "magicien_introuvable"), true)
+        throw new ErrorHandler.AppError(400, "magicien_introuvable", true)
       };
 
       res.status(200).json(magicien);
     } catch (erreur) { next(erreur); }
   }
 
-  static majMagicien(req, res, next) { }
+  static async majMagicien(req, res, next) {
+    // Validation de type ObjectId
+    if (!Types.ObjectId.isValid(req.params.id))
+      throw new ErrorHandler.AppError(400, "Invalid component Id.", true);
+
+    // Validation precaire de la requete
+    const requete = req.body;
+    if (!requete || typeof requete !== "object")
+      throw new ErrorHandler.AppError(400, "maj_magicien_erreur", true)
+
+    // Obtenir magiciens
+    const magicien = await Magicien.Model.findByIdAndUpdate(req.params.id, req.body);
+    if (!magicien) {
+      throw new ErrorHandler.AppError(400, traduire(req.langue, "magicien_introuvable"), true)
+    };
+
+    const cleValideMagicien = Valeurs.magiciens;
+
+
+    magicien.validerMagicien()
+      .then(() => {
+        // sauvegarder
+
+        res.status(201).json(magicien);
+      })
+      .catch(erreur => {
+        next(erreur)
+      })
+  }
 
   static suppressionMagicien(req, res, next) { }
-
 }
 
 export default Magicien;

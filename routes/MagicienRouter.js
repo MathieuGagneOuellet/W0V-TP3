@@ -5,17 +5,6 @@ import Magicien from "../model/Magicien/Magicien.js";
 
 const router = express.Router();
 
-router.get("/:id", async (req, res, next) => {
-    try {
-        const magicien = await MagicienModel.findById(req.params.id).populate("grimoires");
-        if (!magicien) { return res.status(404).json({ message: "blblbl" }) };
-
-        res.status(200).json(magicien);
-    } catch (e) {
-        next(e);
-    }
-});
-
 // POSTMAN -> POST http://localhost:3000/api/magiciens/creer
 router.post("/creer", MagicienController.creer);
 
