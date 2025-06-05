@@ -1,5 +1,5 @@
 import ErrorHandler from "../../middleware/ErrorHandler.js";
-import traduire from "../../middleware/FonctionTraduire.js"
+import { traduire } from "../../middleware/FonctionTraduire.js"
 import logger from "../../utils/logger.js"
 import MagicienModel from "./MagicienModel.js"
 
@@ -126,8 +126,12 @@ class Magicien {
   static async obtenirMagiciens(req, res, next) {
     try {
       const magiciens = await MagicienModel.find();
+      if (!magiciens) {
+        throw new ErrorHandler.AppError(400, traduire(req.langue, "magicien_introuvable"), true)
+      };
+
       res.status(200).json(magiciens);
-    } catch (error) { next(error); }
+    } catch (erreur) { next(erreur); }
   }
 
   static async obtenirMagicien(req, res, next) {

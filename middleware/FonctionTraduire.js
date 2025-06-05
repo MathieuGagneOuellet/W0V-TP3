@@ -1,4 +1,4 @@
-import fr from "./langues/fr.json" assert { type: "json" };
+import fr from "./langues/fr.json" with { type: "json" };
 //wip : ajouter aussi les imports pour "en" et "el"
 
 const dictionnaire = {
