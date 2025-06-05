@@ -4,8 +4,8 @@
 # Phase 1 - Middlewares
 
 ### 1.1 Middleware d'erreur
-- Importation du middleware custom d'Alex
-- Gestion des erreurs avec Winston
+- ~~Importation du middleware custom d'Alex~~
+- Gestion des erreurs avec Winston (Incluant les logs)
 
 ### 1.2 Middleware de langue (Francais, anglais, elfique)
 - Fichiers : `fr.json`, `en.json`, `el.json`
@@ -18,10 +18,10 @@
 ### 2.1 Modèles de base
 
 - User : username, password (non chiffré), role (admin, mage)
-- Magicien : userId, nom, apparence, stats, niveau, écoles, alignement, grimoires
-- Grimoire : nom, écoles, sorts, propriétaire
-- Sort : nom, niveau, école, effets
-- Effet : description, école, types
+- ~~Magicien : userId, nom, apparence, stats, niveau, écoles, alignement, grimoires~~
+- ~~Grimoire : nom, écoles, sorts, propriétaire~~
+- ~~Sort : nom, niveau, école, effets~~
+- ~~Effet : description, école, types~~
 
 ### 2.2 Règles métier à implémenter
 

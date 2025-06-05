@@ -2,8 +2,11 @@ import Magicien from "../model/Magicien/Magicien.js";
 
 const MagicienController = {
   creer: Magicien.creerMagicien,
-  obtenirTous: Magicien.obtenirTous,
-  obtenirUnAvecId: Magicien.obtenirUn
+  creerMultiples: Magicien.creerMagiciens,
+  obtenirTous: Magicien.obtenirMagiciens,
+  obtenirUnAvecId: Magicien.obtenirMagicien,
+  majAvecId: Magicien.majMagicien,
+  supprimerAvecId: Magicien.suppressionMagicien
 }
 
 export default MagicienController;

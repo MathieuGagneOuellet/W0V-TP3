@@ -1,6 +1,7 @@
 {
   "reponses": {
     "creer_magicien_succes": "Magicien créé avec succès!",
+    "creer_magicien_erreur": "Le corps de la requete est invalide",
     "magicien_introuvable": "Le magicien spécifié est introuvable...",
     "grimoire_introuvable": "Le grimoire spécifié est introuvable...",
     "sort_introuvable": "Le sort spécifié est introuvable...",

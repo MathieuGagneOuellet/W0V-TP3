@@ -1,3 +1,4 @@
+import logger from "../utils/logger.js";
 // SOURCE https://www.youtube.com/watch?v=sat4Qlv_TBI
 
 /**
@@ -66,6 +67,11 @@ function throwError(error, req, res, next) {
       break;
   }
 
+  logger.log({
+    level: "error",
+    status: `${error.status ? error.status : 500}`,
+    message: `${error.cause ? error.cause : "Internal server error."}`
+  })
   res.status(error.status ? error.status : 500).json({
     ErrorName: error.name,
     Status: error.status ? error.status : 500,
