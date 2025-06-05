@@ -123,16 +123,29 @@ class Magicien {
 
   static creerMagiciens(req, res, next) { }
 
-  static async obtenirMagiciens(req, res, next) {
-    try {
-      const magiciens = await MagicienModel.find();
-      if (!magiciens) {
-        throw new ErrorHandler.AppError(400, traduire(req.langue, "magicien_introuvable"), true)
-      };
 
-      res.status(200).json(magiciens);
-    } catch (erreur) { next(erreur); }
+static async obtenirMagiciens(req, res, next) {
+  try {
+    const langue = req.langue || 'fr';
+
+    const magiciens = await MagicienModel.find().lean();
+
+    const magiciensTraduits = magiciens.map(mage => ({
+      ...mage,
+      nom: (typeof mage.nom === "object" && mage.nom)
+        ? mage.nom[langue] || mage.nom.fr
+        : mage.nom
+    }));
+
+    if (!magiciens || magiciens.length === 0) {
+      throw new ErrorHandler.AppError(400, traduire(langue, "magicien_introuvable"), true);
+    }
+    res.status(200).json(magiciensTraduits);
+  } catch (erreur) {
+    next(erreur);
   }
+}
+
 
   static async obtenirMagicien(req, res, next) {
     try {
