@@ -21,6 +21,7 @@ class Sort {
   async sauvegarder() {
     try {
       const sort = new SortModel({
+        _id: this.id,
         nom: this.nom,
         niveau: this.niveau,
         ecole: this.ecole,
