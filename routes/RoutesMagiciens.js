@@ -3,9 +3,6 @@ import ControleurMagicien from "../controller/ControleurMagicien.js"
 
 const RoutesMagiciens = express.Router();
 
-// TEST i18n
-RoutesMagiciens.get("/i18n", ControleurMagicien.i18nTest);
-
 // POSTMAN -> POST http://localhost:3000/api/magiciens/creer
 RoutesMagiciens.post("/creer", ControleurMagicien.creer);
 

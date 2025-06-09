@@ -1,5 +1,4 @@
 import { Types } from "mongoose";
-import i18n from "i18next";
 import ErrorHandler from "../../middleware/ErrorHandler.js";
 import MagicienModel from "./MagicienModel.js"
 import Valeurs from "../../utils/valeurs.js";
@@ -152,7 +151,7 @@ class Magicien {
         alignement: this.alignement,
         grimoires: this.grimoires
       });
-      await magicien.save();
+      return await magicien.save();
     } catch (erreur) {
       throw new ErrorHandler.AppError(erreur.statusCode, "reponses.erreur_sauvegarde", true);
     }
@@ -169,8 +168,8 @@ class Magicien {
       if (!isValid) {
         throw new ErrorHandler.AppError(400, "creer_magicien_erreur", true)
       }
-      magicien.sauvegarder()
-      return magicien;
+      const magicienDb = await magicien.sauvegarder()
+      return magicienDb;
     } catch (erreur) {
       if (erreur instanceof ErrorHandler.AppError) {
         throw erreur;

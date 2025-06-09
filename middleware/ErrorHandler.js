@@ -1,4 +1,6 @@
-// import logger from "../utils/logger.js";
+import winston from "winston";
+import "../middleware/WinstonLoggers.js";
+
 // SOURCE https://www.youtube.com/watch?v=WXa1yzLR3hw
 
 /**
@@ -39,12 +41,15 @@ function throwError(error, req, res, next) {
   console.log(error);
   error.statusCode = error.statusCode || 500;
 
-  // TODO Log error with logger Middleware
-  // logger.log({
-  //   level: "error",
-  //   status: `${error.status ? error.status : 500}`,
-  //   message: `${error.cause ? error.cause : "Internal server error."}`
-  // });
+  const erreurLogs = winston.loggers.get("ErrorLogger");
+  const nameTrad = error.name ? req.t(error.name) : "reponses.erreur_inconnue";
+
+  erreurLogs.error(nameTrad, {
+    method: req.method,
+    url: req.originalUrl,
+    statusCode: error.statusCode || 500,
+    user: req.user ? req.user.username : "anonyme",
+  });
 
   const t = (path, fallback) => {
     const result = req.t(path);
