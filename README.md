@@ -7,9 +7,9 @@
 - ~~Importation du middleware custom d'Alex~~
 - Gestion des erreurs avec Winston (Incluant les logs)
 
-### 1.2 Middleware de langue (Francais, anglais, elfique)
-- Fichiers : `fr.json`, `en.json`, `el.json`
-- Chargé via le middleware Express (`i18n.init`)
+### 1.2 Middleware de langue (Francais, anglais)
+- ~~Fichiers : `fr.json`, `en.json`~~
+- ~~Chargé via le middleware Express (`i18n.init`)~~
 - Traduction des messages client, écoles, effets, alignements
 
 ---
@@ -17,11 +17,12 @@
 
 ### 2.1 Modèles de base
 
-- User : username, password (non chiffré), role (admin, mage)
+- ~~User : username, password (non chiffré), role (admin, mage)~~
 - ~~Magicien : userId, nom, apparence, stats, niveau, écoles, alignement, grimoires~~
 - ~~Grimoire : nom, écoles, sorts, propriétaire~~
 - ~~Sort : nom, niveau, école, effets~~
 - ~~Effet : description, école, types~~
+- ~~Initialisation automatique d'une DB de départ avec un seed~~
 
 ### 2.2 Règles métier à implémenter
 
@@ -33,8 +34,8 @@
 
 ### 2.3 Fonctions métiers principales
 
-- creerMagicien( magicienObj )
-- creerSort( idMagicien, sortObj )
+- ~~creerMagicien( magicienObj )~~
+- ~~creerSort( idMagicien, sortObj )~~
 - creerGrimoire( idMagicien, grimoireObj )
 - ajouterSortAuGrimoire( idMagicien, idGrimoire, idSort )
 - acquerirGrimoire( idMagicien, idGrimoire )
@@ -45,8 +46,8 @@
 
 ```json
 {
-  "nom": { "fr": "Jean-Mage", "en": "John Mage", "el": "Jh’Mazh" },
-  "apparence": { "cheveux": "longs", "couleurCheveux": "gris", "robe": "bleue" },
+  "nom": { "fr": "Jean-Mage", "en": "John Mage" },
+  "apparence": { "tenue": "", "yeux": "", "cheveux": "", "barbe": "", "barbe": "" },
   "statistique": { "force": 10, "intelligence": 15 },
   "niveau": 5,
   "ecoles": ["illusion", "restauration"],
@@ -58,7 +59,7 @@
 
 ### 3.1 Routes
 
-- POST /api/register : créer un utilisateur
+- ~~POST /api/register : créer un utilisateur~~
 - POST /api/login : retourner un token JWT
 
 ### 3.2 Middleware d'authentification
@@ -68,7 +69,7 @@
 
 ### 3.3 Ajouts à la structure
 
-- Ajout de userId dans le modèle Magicien
+- ~~Ajout de userId dans le modèle Magicien~~
 - Vérification du token JWT dans les headers
 - Rôle : admin ou mage
 
@@ -92,8 +93,8 @@
 
 ### 4.4 Magicien
 
-- GET /api/magiciens
-- GET /api/magiciens/:id
+- ~~GET /api/magiciens~~
+- ~~GET /api/magiciens/:id~~
 - GET /api/magiciens/:id/grimoires
 - POST /api/magiciens/create (protégé)
 - POST /api/magiciens/:id/sorts
@@ -126,7 +127,7 @@
 - Validation métier appliquée
 - Logger présent
 - Traductions correctes
-- README complet
+- ~~README complet~~
 - Fichier `.env.example` fourni
 
 ---
