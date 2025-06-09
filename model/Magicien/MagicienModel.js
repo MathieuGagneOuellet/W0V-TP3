@@ -1,6 +1,10 @@
 import Mongoose from "mongoose"
 
 const MagicienSchema = new Mongoose.Schema({
+  userId: [{
+    type: Mongoose.Schema.Types.ObjectId,
+    ref: 'Utilisateur'
+  }],
   nom: {
     fr: { type: String, required: true },
     en: { type: String, required: true }

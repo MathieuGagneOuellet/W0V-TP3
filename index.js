@@ -6,12 +6,9 @@ import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import middleware from 'i18next-http-middleware';
 import ErrorHandler from "./middleware/ErrorHandler.js";
-import detecterLangue from "./middleware/i18nMiddleware.js";
 import { initialiserDB } from "./config/initialiserDB.js";
 import RoutesPrincipale from "./routes/RoutesPrincipales.js";
 
-// TODO AUTHENTIFICATION
-// https://www.youtube.com/watch?v=favjC6EKFgw
 
 // Source -> https://lokalise.com/blog/node-js-i18n-express-js-localization/
 i18next
@@ -36,7 +33,6 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(detecterLangue);
 app.use(middleware.handle(i18next)); // Integrates i18next with Express
 
 // Router Principales

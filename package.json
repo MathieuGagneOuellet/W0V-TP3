@@ -21,6 +21,7 @@
     "i18next-http-middleware": "^3.7.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
+    "express-winston": "^4.2.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {

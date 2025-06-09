@@ -1,21 +1,28 @@
 import Magicien from "../model/Magicien/Magicien.js";
+import winston from "winston";
+import "../middleware/WinstonLoggers.js";
+
+const magicienLogs = winston.loggers.get("MagicienLogger");
 
 const ControleurMagicien = {
-  i18nTest: (req, res, next) => {
-    res.send({ title: req.t("title"), message: req.t("message") });
-  },
   creer: (req, res, next) => {
     const requete = req.body;
     Magicien.creerMagicien(requete)
       .then((magicien) => {
-        // TODO Log create with logger Middleware
+
+        magicienLogs.info("Magicien creer avec succes!", {
+          method: { http: req.method, status: 201 },
+          url: req.originalUrl,
+          user: req.user ? req.user.username : "anonyme",
+          objetId: magicien.id
+        });
+
         res.status(201).json({
           ApiMessage: req.t("reponses.creer_magicien_succes"),
           objet: magicien.toJSON(req.t)
         });
       })
       .catch((error) => {
-        // TODO Log error with logger Middleware
         next(error)
       })
   },
