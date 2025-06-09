@@ -1,15 +1,15 @@
-import fr from "./langues/fr.json" with { type: "json" };
-//wip : ajouter aussi les imports pour "en" et "el"
+// import fr from "./langues/fr.json" with { type: "json" };
+// wip : ajouter aussi les imports pour "en" et "el"
 
-const dictionnaire = {
-    fr,
-};
+// const dictionnaire = {
+//     fr,
+// };
 
-export function traduire(langue, clé) {
-    const fallback = "message non def";
-    return dictionnaire[langue]?.clé || dictionnaire["fr"]?.[clé] || fallback;
-}
+// export function traduire(langue, clé) {
+//     const fallback = "message non def";
+//     return dictionnaire[langue]?.clé || dictionnaire["fr"]?.[clé] || fallback;
+// }
 
-//exemple d'utilisation dans le controlleur =>
-//import {traduire} from ../middleware/FonctionTraduire.js;
-//res.status(404).json({message: traduire(req.langue, "magicien_introuvable")});
+// exemple d'utilisation dans le controlleur =>
+// import {traduire} from ../middleware/FonctionTraduire.js;
+// res.status(404).json({message: traduire(req.langue, "magicien_introuvable")});

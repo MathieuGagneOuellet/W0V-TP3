@@ -1,21 +1,22 @@
 import express from "express";
-import MagicienController from "../controller/MagicienController.js"
-import MagicienModel from "../model/Magicien/MagicienModel.js";
-import Magicien from "../model/Magicien/Magicien.js";
+import ControleurMagicien from "../controller/ControleurMagicien.js"
 
-const router = express.Router();
+const RoutesMagiciens = express.Router();
+
+// TEST i18n
+RoutesMagiciens.get("/i18n", ControleurMagicien.i18nTest);
 
 // POSTMAN -> POST http://localhost:3000/api/magiciens/creer
-router.post("/creer", MagicienController.creer);
+RoutesMagiciens.post("/creer", ControleurMagicien.creer);
 
 // POSTMAN -> POST http://localhost:3000/api/magiciens/creer
 // TODO router.post("/creerMultiples", MagicienController.creerMultiples);
 
 // VALID URL -> GET http://localhost:3000/api/magiciens
-router.get("/", MagicienController.obtenirTous);
+RoutesMagiciens.get("/", ControleurMagicien.obtenirTous);
 
 // VALID URL -> GET http://localhost:3000/api/magiciens/:id
-router.get("/:id", MagicienController.obtenirUnAvecId);
+RoutesMagiciens.get("/:id", ControleurMagicien.obtenirUnAvecId);
 
 // POSTMAN -> PATCH http://localhost:3000/api/magiciens/:id
 // TODO router.patch("/:id", MagicienController.majAvecId);
@@ -23,4 +24,4 @@ router.get("/:id", MagicienController.obtenirUnAvecId);
 // POSTMAN -> DELETE http://localhost:3000/api/magiciens/:id
 // TODO router.delete("/:id", MagicienController.supprimerAvecId);
 
-export default router;
+export default RoutesMagiciens;

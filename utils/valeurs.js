@@ -1,5 +1,6 @@
 const Valeurs = {
-  magiciens: ["nom",
+  magiciens: [
+    "nom",
     "niveau",
     "apparance",
     "statistique",

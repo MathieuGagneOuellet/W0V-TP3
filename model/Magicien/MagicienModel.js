@@ -2,14 +2,14 @@ import Mongoose from "mongoose"
 
 const MagicienSchema = new Mongoose.Schema({
   nom: {
-    fr: {type: String, required: true},
-    en: {type: String, required: true}
+    fr: { type: String, required: true },
+    en: { type: String, required: true }
   },
   niveau: {
     type: Number,
     required: true
   },
-  apparance: {
+  apparence: {
     type: Object,
     required: true
   },

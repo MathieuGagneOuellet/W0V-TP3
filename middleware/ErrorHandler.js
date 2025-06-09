@@ -1,5 +1,5 @@
-import logger from "../utils/logger.js";
-// SOURCE https://www.youtube.com/watch?v=sat4Qlv_TBI
+// import logger from "../utils/logger.js";
+// SOURCE https://www.youtube.com/watch?v=WXa1yzLR3hw
 
 /**
  * Error handler middleware for Express.js.
@@ -8,18 +8,18 @@ import logger from "../utils/logger.js";
  * @property {number} status - The HTTP status code of the error.
  * @property {string} cause - The cause of the error.
  * @property {boolean} isOperational - A boolean that indicates if the error is operational or from the application itself.
- * @property {function} ErrorHandler - The error handler middleware function.
+ * @property {function} throwError - The error handler middleware function.
  * @module ErrorMiddleware
  */
 class AppError extends Error {
-  status;
-  cause;
+  statusCode;
+  name;
   isOperational;
 
-  constructor(status, cause, isOperational) {
-    super(cause);
-    this.status = status;
-    this.cause = cause;
+  constructor(statusCode, name, isOperational) {
+    super();
+    this.statusCode = statusCode;
+    this.name = name;
     this.isOperational = isOperational;
 
     Error.captureStackTrace(this, this.constructor);
@@ -36,48 +36,26 @@ class AppError extends Error {
  * @param {function} next - The next middleware function.
  */
 function throwError(error, req, res, next) {
-  console.log("Error name:", error.name);
-  console.log("Error status:", error.status);
   console.log(error);
+  error.statusCode = error.statusCode || 500;
 
-  switch (error.status) {
-    case 400:
-      error = new AppError(error.status, error.message, true);
-      error.name = "Bad request";
-      break;
-    case 401:
-      error = new AppError(error.status, error.message, true);
-      error.name = "Unauthorized";
-      break;
-    case 404:
-      error = new AppError(error.status, error.message, true);
-      error.name = "Not found";
-      break;
-    case 409:
-      error = new AppError(error.status, error.message, true);
-      error.name = "Conflict";
-      break;
-    case 429:
-      error = new AppError(error.status, error.message, true);
-      error.name = "Too many requests";
-      break;
-    default:
-      error = new AppError(error.status, error.message, false);
-      error.name = "Internal server error";
-      break;
+  // TODO Log error with logger Middleware
+  // logger.log({
+  //   level: "error",
+  //   status: `${error.status ? error.status : 500}`,
+  //   message: `${error.cause ? error.cause : "Internal server error."}`
+  // });
+
+  const t = (path, fallback) => {
+    const result = req.t(path);
+    return result !== path ? result : req.t(fallback);
   }
 
-  logger.log({
-    level: "error",
-    status: `${error.status ? error.status : 500}`,
-    message: `${error.cause ? error.cause : "Internal server error."}`
-  })
-  res.status(error.status ? error.status : 500).json({
-    ErrorName: error.name,
-    Status: error.status ? error.status : 500,
-    ApiMessage: error.isOperational
-      ? error.cause
-      : "A programming error has occured.",
+  res.status(error.statusCode).json({
+    Code: error.statusCode,
+    Description: t(error.name, "reponses.erreur_inconnue"),
+    Message: error.message?.[req.t("erreur_inconnue_message")],
+    Definition: error.stack
   });
 }
 

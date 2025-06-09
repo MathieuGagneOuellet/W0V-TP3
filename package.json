@@ -13,9 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "i": "^0.3.7",
+    "i18next": "^25.2.1",
+    "i18next-fs-backend": "^2.6.0",
+    "i18next-http-middleware": "^3.7.4",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
     "winston": "^3.17.0"
   },
