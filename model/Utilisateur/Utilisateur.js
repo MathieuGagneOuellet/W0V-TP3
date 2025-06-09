@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+import bcrypt from 'bcrypt';
 import ErrorHandler from '../../middleware/ErrorHandler.js';
 import UtilisateurModel from './UtilisateurModel.js';
 
@@ -7,7 +9,7 @@ class Utilisateur {
   role;
   token;
   constructor(objet) {
-    this.id = objet.id;
+    this.id = objet._id;
     this.nomUtilisateur = objet.nomUtilisateur;
     this.motDePasse = objet.motDePasse;
     this.role = objet.role;
@@ -26,7 +28,7 @@ class Utilisateur {
     }
 
     return {
-      id: this.id,
+      id: this._id.toString(),
       [trad('etiquette.nom_utilisateur', "nom_utilisateur")]: this.nomUtilisateur,
       [trad('etiquette.mot_de_passe', "mot_de_passe")]: this.motDePasse,
       [trad('etiquette.role', "role")]: this.role,
@@ -59,6 +61,7 @@ class Utilisateur {
   async sauvegarder() {
     try {
       const utilisateur = new UtilisateurModel({
+        _id: this.id || new Types.ObjectId(),
         nomUtilisateur: this.nomUtilisateur,
         motDePasse: this.motDePasse,
         role: this.role
@@ -80,8 +83,16 @@ class Utilisateur {
       if (!isValid) {
         throw new ErrorHandler.AppError(400, "reponses.creer_utilisateur_erreur", true)
       }
-      await utilisateur.sauvegarder()
-      return utilisateur;
+      // Vérifier si l'utilisateur existe déjà
+      const utilisateurExistant = await UtilisateurModel.findOne({ nomUtilisateur: utilisateur.nomUtilisateur });
+      if (utilisateurExistant) {
+        throw new ErrorHandler.AppError(409, "reponses.utilisateur_existe_deja", true);
+      }
+
+      // Hash le mot de passe
+      utilisateur.motDePasse = await bcrypt.hash(utilisateur.motDePasse, 10);
+      const utilisateurDb = await utilisateur.sauvegarder()
+      return utilisateurDb;
     } catch (erreur) {
       if (erreur instanceof ErrorHandler.AppError) {
         throw erreur;

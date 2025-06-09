@@ -92,7 +92,7 @@ class Magicien {
     const alignementTraduit = trad(`alignements.${this.alignement}`, this.alignement);
 
     return {
-      id: this.id,
+      userId: this.userId.toString(),
       [trad("etiquette.nom", "nom")]: this.nom[traduction("lng")] || this.nom.fr,
       [trad("etiquette.niveau", "niveau")]: this.niveau,
       ...apparenceTraduit,
@@ -143,6 +143,8 @@ class Magicien {
   async sauvegarder() {
     try {
       const magicien = new MagicienModel({
+        _id: this.id || new Types.ObjectId(),
+        userId: this.userId,
         nom: this.nom,
         niveau: this.niveau,
         apparence: this.apparence,
@@ -157,15 +159,15 @@ class Magicien {
     }
   }
 
-  static async creerMagicien(reqObject) {
+  static async creerMagicien(objetRequete) {
     try {
-      const requete = reqObject;
+      const requete = objetRequete;
       if (!requete || typeof requete !== "object")
         throw new ErrorHandler.AppError(400, "creer_magicien_erreur", true)
 
       const magicien = new Magicien(requete);
-      const isValid = magicien.validerMagicien()
-      if (!isValid) {
+      const estValide = magicien.validerMagicien()
+      if (!estValide) {
         throw new ErrorHandler.AppError(400, "creer_magicien_erreur", true)
       }
       const magicienDb = await magicien.sauvegarder()
@@ -177,9 +179,6 @@ class Magicien {
       throw new Error(erreur);
     }
   }
-
-  // TODO Batch create
-  static creerMagiciens() { }
 
   static async obtenirMagiciens() {
     try {
@@ -224,37 +223,53 @@ class Magicien {
     }
   }
 
-  // TODO Terminer et Adapter la fonction a la structure MVC
-  static async majMagicien(req, res, next) {
-    // // Validation de type ObjectId
-    // if (!Types.ObjectId.isValid(req.params.id))
-    //   throw new ErrorHandler.AppError(400, "Invalid component Id.", true);
+  static async majMagicien(idRequete, objetRequete) {
+    try {
+      // Validation de type ObjectId
+      if (!Types.ObjectId.isValid(idRequete))
+        throw new ErrorHandler.AppError(400, "reponses.obtenir_magicien_erreur", true);
 
-    // // Validation precaire de la requete
-    // const requete = req.body;
-    // if (!requete || typeof requete !== "object")
-    //   throw new ErrorHandler.AppError(400, "maj_magicien_erreur", true)
+      // Validation precaire de la requete
+      if (!objetRequete || typeof objetRequete !== "object")
+        throw new ErrorHandler.AppError(400, "reponses.maj_magicien_erreur", true)
 
-    // // Obtenir magiciens
-    // const magicien = await Magicien.Model.findByIdAndUpdate(req.params.id, req.body);
-    // if (!magicien) {
-    //   throw new ErrorHandler.AppError(400, traduire(req.langue, "magicien_introuvable"), true)
-    // };
-
-    // const cleValideMagicien = Valeurs.magiciens;
-
-    // magicien.validerMagicien()
-    //   .then(() => {
-    //     // sauvegarder
-
-    //     res.status(201).json(magicien);
-    //   })
-    //   .catch(erreur => {
-    //     next(erreur)
-    //   })
+      // Obtenir et mettre a jour le magicien
+      let magicien = await MagicienModel.findByIdAndUpdate(
+        idRequete,
+        objetRequete,
+        { runValidators: true }
+      );
+      if (!magicien) {
+        throw new ErrorHandler.AppError(400, "reponses.magicien_introuvable", true)
+      };
+      return magicien;
+    } catch (error) {
+      if (error instanceof ErrorHandler.AppError) {
+        throw error;
+      }
+      throw new Error(error);
+    }
   }
 
-  static suppressionMagicien(req, res, next) { }
+  static async suppressionMagicien(idRequete) {
+    try {
+      // Validation de type ObjectId
+      if (!Types.ObjectId.isValid(idRequete))
+        throw new ErrorHandler.AppError(400, "reponses.obtenir_magicien_erreur", true);
+
+      // Suppression du magicien
+      const magicien = await MagicienModel.findByIdAndDelete(idRequete);
+      if (!magicien) {
+        throw new ErrorHandler.AppError(400, "reponses.supprimer_magicien_erreur", true)
+      };
+      return magicien;
+    } catch (error) {
+      if (error instanceof ErrorHandler.AppError) {
+        throw error;
+      }
+      throw new Error(error);
+    }
+  }
 }
 
 export default Magicien;

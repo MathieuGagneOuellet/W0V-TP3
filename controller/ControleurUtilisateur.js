@@ -39,14 +39,14 @@ const ControleurUtilisateur = {
               return next(new ErrorHandler.AppError(401, "reponses.mot_de_passe_invalide", true));
             } else {
               // Generation du access token JWT
-              const token = jwt.sign({ "utilisateur": utilisateurTrouver.nomUtilisateur }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+              const token = jwt.sign({ "utilisateur": utilisateurTrouver.nomUtilisateur }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '45s' });
 
               // Generation du refresh token JWT. "sign()" retourne un JWToken 
               const refreshToken = jwt.sign({ "utilisateur": utilisateurTrouver.nomUtilisateur }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
 
               // Sauvegarde du refresh token dans la base de données sur l'utilisateur
-              utilisateurTrouver.refreshToken = refreshToken;
-              utilisateurTrouver.sauvegarder()
+              // utilisateurTrouver.refreshToken = refreshToken;
+              // utilisateurTrouver.sauvegarder()
 
               // TODO Verifier dans mon browser si le cookie est bien envoyé
               res.cookie("jwt", refreshToken, {

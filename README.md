@@ -5,12 +5,12 @@
 
 ### 1.1 Middleware d'erreur
 - ~~Importation du middleware custom d'Alex~~
-- Gestion des erreurs avec Winston (Incluant les logs)
+- ~~Gestion des erreurs avec Winston (Incluant les logs)~~
 
 ### 1.2 Middleware de langue (Francais, anglais)
 - ~~Fichiers : `fr.json`, `en.json`~~
 - ~~Chargé via le middleware Express (`i18n.init`)~~
-- Traduction des messages client, écoles, effets, alignements
+- ~~Traduction des messages client, écoles, effets, alignements~~
 
 ---
 # Phase 2 – Modèles et schema Mongoose
@@ -59,11 +59,11 @@
 ### 3.1 Routes
 
 - ~~POST /api/register : créer un utilisateur~~
-- POST /api/login : retourner un token JWT
+- ~~POST /api/login : retourner un token JWT~~
 
 ### 3.2 Middleware d'authentification
 
-- Protège les routes de création et modification
+- ~~Protège les routes de création et modification~~
 - Vérifie si l’utilisateur est admin ou créateur
 
 ### 3.3 Ajouts à la structure
@@ -106,9 +106,9 @@
 ---
 # Phase 5 – Logger
 
-- Winston utilisé
-- Logger chaque action d’un magicien
-- Logger chaque erreur (try/catch)
+- ~~Winston utilisé~~
+- ~~Logger chaque action d’un magicien~~
+- ~~Logger chaque erreur (try/catch)~~
 - Aucun console.log (sauf démarrage serveur ou debug validé)
 
 ---
@@ -127,7 +127,7 @@
 - Logger présent
 - Traductions correctes
 - ~~README complet~~
-- Fichier `.env.example` fourni
+- ~~Fichier `.env.example` fourni~~
 
 ---
 # Phase 8 – Remise finale
