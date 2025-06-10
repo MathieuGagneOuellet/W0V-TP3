@@ -64,6 +64,41 @@ class Sort {
     return sort;
   }
 
+  static async lancerSort(idMagicien, idSort) {
+      //validation des paramètres en entrée (doivent être des ObjetId valides)
+      if (!Types.ObjectId.isValid(idMagicien) || !Types.ObjectId.isValid(idSort)) {
+        throw new ErrorHandler.AppError(400, "reponses.id_invalide", true);
+      }
+
+      //récupération des entités
+      const magicienDb = await MagicienModel.findById(idMagicien).populate("grimoires");
+      const sortDb = await SortModel.findById(idSort);
+        if (!magicienDb) {
+          throw new ErrorHandler.AppError(404, "reponses.magicien_introuvable", true);
+        }
+        if (!sortDb) {
+          throw new ErrorHandler.AppError(404, "reponses.sort_introuvable", true);
+        }
+        //le sort est bel et bien dans un grimoire du magicien
+        const sortConnu = magicienDb.grimoires
+          .some(grimoire => grimoire.sorts
+          .some(id => id.equals(sortDb._id))); //vérifie si, parmi les grimoires du mage, l'un d'eux contient le sort
+        if (!sortConnu) {
+          throw new ErrorHandler.AppError(403, "reponses.sort_non_connu", true);
+        }
+      
+        //section on est good
+        return {
+          message: "Le sort est lancé!", 
+          sort: {
+            id: sortDb._id,
+            nom: sortDb.nom,
+            ecole: sortDb.ecole,
+            niveau: sortDb.niveau
+          }
+        };
+  }
+
 }
 
 export default Sort;

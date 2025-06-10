@@ -38,8 +38,8 @@
 - ~~creerSort( idMagicien, sortObj )~~
 - ~~creerGrimoire( idMagicien, grimoireObj )~~
 - ~~ajouterSortAuGrimoire( idMagicien, idGrimoire, idSort )~~
-- acquerirGrimoire( idMagicien, idGrimoire )
-- lancerSort( idMagicien, idSort )
+- ~~acquerirGrimoire( idMagicien, idGrimoire )~~
+- ~~lancerSort( idMagicien, idSort )~~
 - genereEffetsAleatoires()
 
 ### 2.4 Exemple d'entrée JSON
