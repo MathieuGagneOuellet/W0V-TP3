@@ -127,7 +127,6 @@ class Grimoire {
     return grimoireDb;
   }
   
-
   static async retirerSortGrimoire(idMagicien, idGrimoire, idSort) {
     //validation des paramètres en entrée (doivent être des ObjetId valides)
     if (!Types.ObjectId.isValid(idMagicien) || !Types.ObjectId.isValid(idGrimoire) || !Types.ObjectId.isValid(idSort)) {
@@ -156,12 +155,63 @@ class Grimoire {
       //le sort qu'on veut enlever n'est même pas dans le grimoire
       throw new ErrorHandler.AppError(403, "reponses.sort_absent", true);
     }
+
     //section on est good
     grimoireDb.sorts = grimoireDb.sorts.filter(id => !id.equals(sortDb._id));
     await grimoireDb.save();
-
     return grimoireDb;
- 
+  }
+
+  static async acquerirGrimoire(idMagicien, idGrimoire) {
+    //validation des paramètres en entrée (doivent être des ObjetId valides)
+    if (!Types.ObjectId.isValid(idMagicien) || !Types.ObjectId.isValid(idGrimoire)) {
+      throw new ErrorHandler.AppError(400, "reponses.id_invalide", true);
+    }    
+    //validation des entités (doivent exister dans notre DB actuelle)
+    const magicienDb = await MagicienModel.findById(idMagicien);
+    const grimoireDb = await GrimoireModel.findById(idGrimoire);
+    if (!magicienDb) {
+      throw new ErrorHandler.AppError(404, "reponses.magicien_introuvable", true);
+    }
+    if (!grimoireDb) {
+      throw new ErrorHandler.AppError(404, "reponses.grimoire_introuvable", true);
+    }
+    //validations métier
+    if (magicienDb.grimoires.includes(grimoireDb._id)) {
+      //si le magicien possède déjà ce grimoire
+      throw new ErrorHandler.AppError(403, "reponses.deja_possede_grimoire", true);
+    }
+
+    //section on est good
+    magicienDb.grimoires.push(grimoireDb._id);
+    await magicienDb.save();
+    return magicienDb;
+  }
+
+    static async retirerGrimoire(idMagicien, idGrimoire) {
+    //validation des paramètres en entrée (doivent être des ObjetId valides)
+    if (!Types.ObjectId.isValid(idMagicien) || !Types.ObjectId.isValid(idGrimoire)) {
+      throw new ErrorHandler.AppError(400, "reponses.id_invalide", true);
+    }    
+    //validation des entités (doivent exister dans notre DB actuelle)
+    const magicienDb = await MagicienModel.findById(idMagicien);
+    const grimoireDb = await GrimoireModel.findById(idGrimoire);
+    if (!magicienDb) {
+      throw new ErrorHandler.AppError(404, "reponses.magicien_introuvable", true);
+    }
+    if (!grimoireDb) {
+      throw new ErrorHandler.AppError(404, "reponses.grimoire_introuvable", true);
+    }
+    //validations métier
+    if (!magicienDb.grimoires.includes(grimoireDb._id)) {
+      //si le magicien ne possède pas ce grimoire
+      throw new ErrorHandler.AppError(403, "reponses.possede_pas_grimoire", true);
+    }
+
+    //section on est good
+    magicienDb.grimoires = magicienDb.grimoires.filter(id => !id.equals(grimoireDb._id));
+    await magicienDb.save();
+    return magicienDb;
   }
 
 
