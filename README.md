@@ -37,7 +37,7 @@
 - ~~creerMagicien( magicienObj )~~
 - ~~creerSort( idMagicien, sortObj )~~
 - ~~creerGrimoire( idMagicien, grimoireObj )~~
-- ajouterSortAuGrimoire( idMagicien, idGrimoire, idSort )
+- ~~ajouterSortAuGrimoire( idMagicien, idGrimoire, idSort )~~
 - acquerirGrimoire( idMagicien, idGrimoire )
 - lancerSort( idMagicien, idSort )
 - genereEffetsAleatoires()
