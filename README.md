@@ -5,7 +5,7 @@
 
 ### 1.1 Middleware d'erreur
 - ~~Importation du middleware custom d'Alex~~
-- Gestion des erreurs avec Winston (Incluant les logs)
+- ~~Gestion des erreurs avec Winston (Incluant les logs)~~
 
 ### 1.2 Middleware de langue (Francais, anglais)
 - ~~Fichiers : `fr.json`, `en.json`~~
@@ -36,7 +36,7 @@
 
 - ~~creerMagicien( magicienObj )~~
 - ~~creerSort( idMagicien, sortObj )~~
-- creerGrimoire( idMagicien, grimoireObj )
+- ~~creerGrimoire( idMagicien, grimoireObj )~~
 - ajouterSortAuGrimoire( idMagicien, idGrimoire, idSort )
 - acquerirGrimoire( idMagicien, idGrimoire )
 - lancerSort( idMagicien, idSort )
