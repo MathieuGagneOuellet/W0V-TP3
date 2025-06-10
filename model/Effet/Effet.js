@@ -18,6 +18,7 @@ class Effet {
   async sauvegarder() {
     try {
       const effet = new EffetModel({
+        _id: this.id,
         nom: this.nom,
         niveau: this.niveau,
         ecole: this.ecole,

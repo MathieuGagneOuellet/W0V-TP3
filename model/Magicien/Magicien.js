@@ -141,7 +141,7 @@ class Magicien {
   async sauvegarder() {
     try {
       const magicien = new MagicienModel({
-        _id: this.id || new Types.ObjectId(),
+        _id: this.id,
         userId: this.userId,
         nom: this.nom,
         niveau: this.niveau,

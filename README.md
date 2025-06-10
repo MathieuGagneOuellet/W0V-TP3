@@ -22,6 +22,7 @@
 - ~~Grimoire : nom, écoles, sorts, propriétaire~~
 - ~~Sort : nom, niveau, école, effets~~
 - ~~Effet : description, école, types~~
+- ~~Initialisation automatique d'une DB de départ avec un seed~~
 
 ### 2.2 Règles métier à implémenter
 
@@ -34,8 +35,8 @@
 ### 2.3 Fonctions métiers principales
 
 - ~~creerMagicien( magicienObj )~~
-- creerSort( idMagicien, sortObj )
-- creerGrimoire( idMagicien, grimoireObj )
+- ~~creerSort( idMagicien, sortObj )~~
+- ~~creerGrimoire( idMagicien, grimoireObj )~~
 - ajouterSortAuGrimoire( idMagicien, idGrimoire, idSort )
 - acquerirGrimoire( idMagicien, idGrimoire )
 - lancerSort( idMagicien, idSort )
