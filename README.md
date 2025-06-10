@@ -26,11 +26,11 @@
 
 ### 2.2 Règles métier à implémenter
 
-- Niveau du sort ≤ niveau du magicien
-- École du sort ∈ écoles du magicien
-- Sorts du grimoire doivent être dans ses écoles
+- ~~Niveau du sort ≤ niveau du magicien~~ ( dans Sort.creerSort() )
+- ~~École du sort ∈ écoles du magicien~~ ( dans Sort.creerSort() )
+- ~~Sorts du grimoire doivent être dans ses écoles~~ ( dans Grimoire.creerGrimoire() )
 - Seul l’auteur ou un admin peut modifier un grimoire
-- Lancer un sort : magicien doit connaître l’école, posséder le sort, avoir le bon niveau
+- ~~Lancer un sort : magicien doit connaître l’école, posséder le sort, avoir le bon niveau~~ ( dans Sort.lancerSort() )
 
 ### 2.3 Fonctions métiers principales
 

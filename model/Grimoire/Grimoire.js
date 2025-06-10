@@ -81,6 +81,12 @@ class Grimoire {
       //valider que tous les sorts qu'on référence existe vraiment dans la DB
       throw new ErrorHandler.AppError(404, "reponses.sorts_introuvables", true);
     }
+    //valider que tous les sorts doivent appartenir à une école connue du magicien
+    for (let sort of sortsTrouves) {
+      if (!magicienDb.ecole.includes(sort.ecole)) {
+        throw new AppError(400, "reponses.grimoire_sort_ecole_non_autorisee", true);
+      }
+    }
 
 
     //Section "on est good, tout est OK"

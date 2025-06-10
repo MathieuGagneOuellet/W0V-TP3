@@ -86,7 +86,15 @@ class Sort {
         if (!sortConnu) {
           throw new ErrorHandler.AppError(403, "reponses.sort_non_connu", true);
         }
-      
+        if (!magicienDb.ecoles.includes(sortDb.ecole)) {
+          //valider que le magicien connaisse l'école du sort
+          throw new ErrorHandler.AppError(403, "reponses.ecole_sort_non_connue", true);
+        }
+        if (magicienDb.niveau < sortDb.niveau) {
+          //valider que le magicien est de niveau suffisant
+          throw new ErrorHandler.AppError(403, "reponses.niveau_insuffisant", true);
+        }
+              
         //section on est good
         return {
           message: "Le sort est lancé!", 
