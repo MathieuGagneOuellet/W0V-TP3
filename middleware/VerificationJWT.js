@@ -10,7 +10,7 @@ const VerificationJWT = (req, res, next) => {
   const authenticateurHeader = req.headers['authorization'];
   if (!authenticateurHeader) {
     return res.status(401).json({
-      ApiMessage: req.t("erreur.verification_jwt_absent")
+      ApiMessage: req.t("reponses.verification_jwt_absent")
     });
   }
   const token = authenticateurHeader.split(' ')[1];
@@ -19,7 +19,7 @@ const VerificationJWT = (req, res, next) => {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, tokenDecoder) => {
     if (err) {
       return res.status(403).json({
-        ApiMessage: req.t("erreur.verification_jwt_invalide")
+        ApiMessage: req.t("reponses.verification_jwt_invalide")
       });
     }
     req.utilisateur = tokenDecoder.utilisateur;

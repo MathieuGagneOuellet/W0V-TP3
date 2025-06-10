@@ -2,8 +2,6 @@ import { Types } from "mongoose";
 import ErrorHandler from "../../middleware/ErrorHandler.js";
 import MagicienModel from "./MagicienModel.js"
 import Valeurs from "../../utils/valeurs.js";
-// import { traduire } from "../../middleware/FonctionTraduire.js"
-//import logger from "../../utils/logger.js"
 
 class Magicien {
   userId;

@@ -9,7 +9,6 @@ import ErrorHandler from "./middleware/ErrorHandler.js";
 import { initialiserDB } from "./config/initialiserDB.js";
 import RoutesPrincipale from "./routes/RoutesPrincipales.js";
 
-
 // Source -> https://lokalise.com/blog/node-js-i18n-express-js-localization/
 i18next
   .use(Backend)                     // Connects the file system backend
