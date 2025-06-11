@@ -1,16 +1,15 @@
 import ErrorHandler from "../../middleware/ErrorHandler.js";
+import { Types } from "mongoose";
 import EffetModel from "./EffetModel.js";
 
 class Effet {
   nom;
-  niveau;
   ecole;
   type;
 
   constructor(objet) {
     this.id = objet.id || objet._id || null;
     this.nom = objet.nom;
-    this.niveau = objet.niveau;
     this.ecole = objet.ecole;
     this.type = objet.type;
   }
@@ -18,16 +17,27 @@ class Effet {
   async sauvegarder() {
     try {
       const effet = new EffetModel({
-        _id: this.id,
         nom: this.nom,
-        niveau: this.niveau,
         ecole: this.ecole,
         type: this.type
       });
       return await effet.save();
     } catch (error) {
-      throw new ErrorHandler.AppError(400, `Erreur pendant la sauvegarde: ${error.message}`, true);
+      throw new ErrorHandler.AppError(400, "reponses.erreur_sauvegarde", true);
     }
+  }
+
+  static async creerEffet(objetEffet) {
+    if (!objetEffet || typeof objetEffet !== 'object') {
+      throw new ErrorHandler.AppError(400, "reponses.effet_invalide", true);
+    }
+    if (!objetEffet.nom || !objetEffet.ecole || !objetEffet.type) {
+      throw new ErrorHandler.AppError(400, "reponses.effet_champs_manquants", true);
+    }
+
+    const effet = new Effet(objetEffet);
+    await effet.sauvegarder();
+    return effet;
   }
 }
 

@@ -153,7 +153,10 @@ class Magicien {
       });
       return await magicien.save();
     } catch (erreur) {
-      throw new ErrorHandler.AppError(erreur.statusCode, "reponses.erreur_sauvegarde", true);
+      if (erreur instanceof ErrorHandler.AppError) {
+        throw erreur;
+      }
+      throw new Error(erreur);
     }
   }
 
@@ -201,10 +204,10 @@ class Magicien {
     }
   }
 
-  static async obtenirMagicienAvecId(idRequete) {
+  static async obtenirMagicienAvecId(magicienId) {
     try {
       const magicienDb = await MagicienModel
-        .findById(idRequete)
+        .findById(magicienId)
         .populate("grimoires");
 
       if (!magicienDb) {

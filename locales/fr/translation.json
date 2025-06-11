@@ -30,6 +30,7 @@
     "supprimer_magicien_erreur": "La requête de suppression est invalide.",
     "magiciens_inacessible": "Une erreur est survenue lors de la récupération des données.",
     "magicien_introuvable": "Le magicien spécifié est introuvable...",
+    "effets_introuvable": "Les effets spécifiés sont introuvables...",
     "grimoire_introuvable": "Le grimoire spécifié est introuvable...",
     "sort_introuvable": "Le sort spécifié est introuvable...",
     "niveau_insuffisant": "Le niveau du magicien est insuffisant...",

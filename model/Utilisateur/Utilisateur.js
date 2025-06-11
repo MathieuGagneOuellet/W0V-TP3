@@ -9,7 +9,7 @@ class Utilisateur {
   role;
   token;
   constructor(objet) {
-    this.id = objet._id;
+    this.id = objet.id || objet._id || null;
     this.nomUtilisateur = objet.nomUtilisateur;
     this.motDePasse = objet.motDePasse;
     this.role = objet.role;
@@ -61,14 +61,18 @@ class Utilisateur {
   async sauvegarder() {
     try {
       const utilisateur = new UtilisateurModel({
-        _id: this.id || new Types.ObjectId(),
+        _id: this.id,
         nomUtilisateur: this.nomUtilisateur,
         motDePasse: this.motDePasse,
-        role: this.role
+        role: this.role,
+        token: this.token
       })
       return await utilisateur.save();
     } catch (erreur) {
-      throw new ErrorHandler.AppError(erreur.statusCode, "reponses.erreur_sauvegarde", true);
+      if (erreur instanceof ErrorHandler.AppError) {
+        throw erreur;
+      }
+      throw new Error(erreur);
     }
   }
 

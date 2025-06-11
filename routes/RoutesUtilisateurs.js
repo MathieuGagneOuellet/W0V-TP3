@@ -8,7 +8,6 @@ RoutesUtilisateurs.post("/creer", ControleurUtilisateur.creerUnCompte);
 RoutesUtilisateurs.post("/connexion", ControleurUtilisateur.connexion);
 
 // Utilisation de la vérification JWT pour les routes suivantes
-// TODO Test avec le token JWT
 RoutesUtilisateurs.get("/", VerificationJWT, ControleurUtilisateur.obtenirTousUtilisateurs);
 
 export default RoutesUtilisateurs;

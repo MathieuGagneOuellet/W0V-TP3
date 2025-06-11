@@ -1,8 +1,11 @@
 import { Types } from 'mongoose';
-import i18n from "i18next";
+import mongoose from 'mongoose';
 import ErrorHandler from '../../middleware/ErrorHandler.js';
+import Aleatoire from '../../utils/random.js';
+import Valeurs from '../../utils/valeurs.js';
 import MagicienModel from '../Magicien/MagicienModel.js';
 import SortModel from './SortModel.js';
+import EffetModel from '../Effet/EffetModel.js';
 
 class Sort {
   nom;
@@ -13,8 +16,8 @@ class Sort {
   constructor(objet) {
     this.id = objet.id || objet._id || null;
     this.nom = objet.nom;
-    this.niveau = objet.niveau;
-    this.ecole = objet.ecole;
+    this.niveau = objet.niveau || null;
+    this.ecole = objet.ecole || null;
     this.effet = objet.effet || [];
   }
 
@@ -28,42 +31,77 @@ class Sort {
         effet: this.effet
       });
       return await sort.save();
-    } catch (error) {
-      throw new ErrorHandler.AppError(400, `Erreur pendant la sauvegarde: ${error.message}`, true);
+    } catch (erreur) {
+      if (erreur instanceof ErrorHandler.AppError) {
+        throw erreur;
+      }
+      throw new Error(erreur);
     }
   }
 
   ///Créer un sort si le magicien :
   ///Existe, possède l'école du sort, est de niveau >= niveau du sort
-  static async creerSort(idMagicien, objetSort)
-  {
+  static async creerSort(idMagicien, objetSort) {
     if (!Types.ObjectId.isValid(idMagicien)) {
-      //valider que idMagicien est bien un ID Mongoose
-      throw new ErrorHandler.AppError(400, "reponses.magicien_introuvable", true); 
+      throw new ErrorHandler.AppError(400, "reponses.magicien_introuvable", true);
     }
     const magicienDb = await MagicienModel.findById(idMagicien);
     if (!magicienDb) {
-      //valider que l'id en paramètre de la fonction est bien identifiable à un id dans notre DB
       throw new ErrorHandler.AppError(404, "reponses.magicien_introuvable", true);
     }
-    
-    //Section règles métier :
-    if (!objetSort || typeof objetSort !== 'object') {
-      throw new ErrorHandler.AppError(400, "reponses.sort_invalide", true);
-    }
-    if (typeof objetSort.niveau !== "number" || objetSort.niveau > magicienDb.niveau) {
-      throw new ErrorHandler.AppError(400, "reponses.sort_invalide", true);      
-    }
-    if (!objetSort.ecole || !magicienDb.ecole.includes(objetSort.ecole)) {
-      throw new ErrorHandler.AppError(400, "reponses.sort_ecole_non_autorisee", true);    
-    }
 
-    //Section "on est good, tout est OK"
-    const sort = new Sort(objetSort);
-    await sort.sauvegarder();
-    return sort;
+    const effetsDb = await EffetModel.find();
+    if (!effetsDb) {
+      throw new ErrorHandler.AppError(404, "reponses.effets_introuvable", true)
+    }
+    const effetsObjetsId = effetsDb.map(effet => effet._id);
+
+    // Vérifie si l'objet contient niveau, ecole et effet
+    let { nom, niveau, ecole, effet } = objetSort;
+
+    // Génère les valeurs manquantes
+    if (!niveau && !ecole && !effet) {
+      let effetAleatoire = [];
+      niveau = Aleatoire.obtientNombreAleatoire(1, magicienDb.niveau);
+      ecole = Aleatoire.obtientElementAleatoire(magicienDb.ecole);
+
+      const genererEffetAleatoire = () => {
+        return Aleatoire.obtientElementAleatoire(effetsObjetsId);
+      }
+
+      // Genere les effets aleatoires selon le niveau du sort
+      if (niveau <= 10) {
+        const effetIdSingulier = genererEffetAleatoire();
+        effetAleatoire = effetIdSingulier;
+      } else if (niveau > 10) {
+        // Deux effets
+        const effetIdDouble = genererEffetAleatoire() + genererEffetAleatoire();
+        effetAleatoire = effetIdDouble;
+      }
+      effet = []
+      effet.push(effetAleatoire);
+
+
+      // Validation des champs requis
+      if (!nom || !niveau || !ecole || !effet) {
+        throw new ErrorHandler.AppError(400, "reponses.sort_invalide", true);
+      }
+
+      // Validation règles métier
+      if (typeof niveau !== 'number' || niveau > magicienDb.niveau) {
+        throw new ErrorHandler.AppError(400, "reponses.niveau_insuffisant", true);
+      }
+
+      // Validation si l'école est autorisée
+      if (!magicienDb.ecole.includes(ecole)) {
+        throw new ErrorHandler.AppError(400, "reponses.ecole_non_autorisee", true);
+      }
+
+      const sort = new Sort({ nom, niveau, ecole, effet });
+      await sort.sauvegarder();
+      return sort;
+    }
   }
-
 }
 
 export default Sort;
