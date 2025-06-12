@@ -37,7 +37,8 @@
     "ecole_non_autorisee": "Le magicien ne maîtrise pas cette école de magie...",
     "grimoire_deja_possede": "Le grimoire est déjà dans la liste du magicien...",
     "ajout_sort_succes": "Sort ajouté au grimoire avec succès !",
-    "sort_non_disponible": "Ce sort n’est pas disponible pour ce magicien..."
+    "sort_non_disponible": "Ce sort n’est pas disponible pour ce magicien...",
+    "supprimer_sort_succes": "Sort supprimé du grimoire avec succès !"
   },
   "ecoles": {
     "mysticisme": "Mysticisme",

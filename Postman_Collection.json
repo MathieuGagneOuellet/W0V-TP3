@@ -1,0 +1,630 @@
+{
+	"info": {
+		"_postman_id": "3aaa81d0-2e14-4b3f-bc44-60b8bba6470c",
+		"name": "Web3 TP3 - Magic World",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39684397"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Connexion Admin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"nomUtilisateur\": \"admin\",\r\n    \"motDePasse\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/utilisateurs/connexion"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:3000/api/utilisateurs/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"nomUtilisateur\": \"Gargamel\",\r\n    \"motDePasse\": \"123456\",\r\n    \"role\": \"utilisateur\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/utilisateurs/creer"
+					},
+					"response": []
+				},
+				{
+					"name": "Connexion User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"nomUtilisateur\": \"Billybob\",\r\n    \"motDePasse\": \"Billybob\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/utilisateurs/connexion"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Need authentication",
+			"item": [
+				{
+					"name": "Create Magicien",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": \"000000000000000000000001\",\r\n  \"nom\": {\r\n    \"fr\": \"Bismuth le pyromancier\",\r\n    \"en\": \"Bismuth the pyromancer\"\r\n  },\r\n  \"niveau\": 2,\r\n  \"apparence\": {\r\n    \"tenue\": \"Piercings magiques\",\r\n    \"yeux\": \"noirs\",\r\n    \"cheveux\": \"blanc\",\r\n    \"barbe\": \"longue\",\r\n    \"baton\": \"queue enroulée\"\r\n  },\r\n  \"statistique\": {\r\n    \"force\": 11,\r\n    \"dexterite\": 15,\r\n    \"intelligence\": 13,\r\n    \"constitution\": 13,\r\n    \"charisme\": 9,\r\n    \"sagesse\": 12\r\n  },\r\n  \"ecole\": [\r\n    \"illusion\"\r\n  ],\r\n  \"alignement\": \"neutre bon\",\r\n  \"grimoires\": [\r\n    {\r\n      \"_id\": \"683f46555e0f8c8690973fe2\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/magiciens/creer"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Magiciens",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens"
+							],
+							"query": [
+								{
+									"key": "langue",
+									"value": "en",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Magicien with ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens/68471e92ea82e246130f1bab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens",
+								"68471e92ea82e246130f1bab"
+							],
+							"query": [
+								{
+									"key": "langue",
+									"value": "fr",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch magicien with ID",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \"statistique\": {\r\n    \"force\": 20,\r\n    \"dexterite\": 20,\r\n    \"intelligence\": 20,\r\n    \"constitution\": 20,\r\n    \"charisme\": 20,\r\n    \"sagesse\": 20\r\n    }\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens/maj/6846fe9ad529e59c9b7e541d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens",
+								"maj",
+								"6846fe9ad529e59c9b7e541d"
+							],
+							"query": [
+								{
+									"key": "langue",
+									"value": "en",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete magicien with ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens/68472009f941659fcddbe358",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens",
+								"68472009f941659fcddbe358"
+							],
+							"query": [
+								{
+									"key": "langue",
+									"value": "en",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create spells",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nom\": {\r\n        \"fr\": \"Lancer de patate\",\r\n        \"en\": \"Potato throw\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/sorts/111000000000000000000002"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Cast spell",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/sorts/magiciens/111000000000000000000001/sorts/lancer/333000000000000000000001"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete spell",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:3000/api/sorts/111000000000000000000001/333000000000000000000001"
+					},
+					"response": []
+				},
+				{
+					"name": "Create spellbook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": {\r\n    \"fr\": \"Arts du Pangolin Illusoire\",\r\n    \"en\": \"Arts of the Illusory Pangolin\"\r\n  },\r\n  \"ecole\": [\r\n    \"illusion\",\r\n    \"alteration\"\r\n  ],\r\n  \"sorts\": [\r\n      \"333000000000000000000002\"\r\n    ],\r\n  \"proprietaire\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/grimoires/creer/111000000000000000000002"
+					},
+					"response": []
+				},
+				{
+					"name": "Acquire spellbook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": {\r\n    \"fr\": \"Arts du Pangolin Illusoire\",\r\n    \"en\": \"Arts of the Illusory Pangolin\"\r\n  },\r\n  \"ecole\": [\r\n    \"illusion\",\r\n    \"alteration\"\r\n  ],\r\n  \"sorts\": [\r\n      \"333000000000000000000002\"\r\n    ],\r\n  \"proprietaire\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens/:idMagicien/grimoires/acquerir/:idGrimoire",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens",
+								":idMagicien",
+								"grimoires",
+								"acquerir",
+								":idGrimoire"
+							],
+							"variable": [
+								{
+									"key": "idMagicien",
+									"value": ""
+								},
+								{
+									"key": "idGrimoire",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete spellbook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": {\r\n    \"fr\": \"Arts du Pangolin Illusoire\",\r\n    \"en\": \"Arts of the Illusory Pangolin\"\r\n  },\r\n  \"ecole\": [\r\n    \"illusion\",\r\n    \"alteration\"\r\n  ],\r\n  \"sorts\": [\r\n      \"333000000000000000000002\"\r\n    ],\r\n  \"proprietaire\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens/:idMagicien/grimoires/retirer/:idGrimoire",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens",
+								":idMagicien",
+								"grimoires",
+								"retirer",
+								":idGrimoire"
+							],
+							"variable": [
+								{
+									"key": "idMagicien",
+									"value": ""
+								},
+								{
+									"key": "idGrimoire",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add spell to spellbook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": {\r\n    \"fr\": \"Arts du Pangolin Illusoire\",\r\n    \"en\": \"Arts of the Illusory Pangolin\"\r\n  },\r\n  \"ecole\": [\r\n    \"illusion\",\r\n    \"alteration\"\r\n  ],\r\n  \"sorts\": [\r\n      \"333000000000000000000002\"\r\n    ],\r\n  \"proprietaire\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens/:idMagicien/grimoires/:idGrimoire/sorts/:idSort",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens",
+								":idMagicien",
+								"grimoires",
+								":idGrimoire",
+								"sorts",
+								":idSort"
+							],
+							"variable": [
+								{
+									"key": "idMagicien",
+									"value": ""
+								},
+								{
+									"key": "idGrimoire",
+									"value": ""
+								},
+								{
+									"key": "idSort",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete spell from spellbook",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dGlsaXNhdGV1ciI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ5NjY5OTg1LCJleHAiOjE3NDk5MjkxODV9.1cgfz7Y4XfwFoKsr4oV06uiPmBMwt7dGMo-RO1TA46w"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nom\": {\r\n    \"fr\": \"Arts du Pangolin Illusoire\",\r\n    \"en\": \"Arts of the Illusory Pangolin\"\r\n  },\r\n  \"ecole\": [\r\n    \"illusion\",\r\n    \"alteration\"\r\n  ],\r\n  \"sorts\": [\r\n      \"333000000000000000000002\"\r\n    ],\r\n  \"proprietaire\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/magiciens/:idMagicien/grimoires/:idGrimoire/sorts/:idSort",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"magiciens",
+								":idMagicien",
+								"grimoires",
+								":idGrimoire",
+								"sorts",
+								":idSort"
+							],
+							"variable": [
+								{
+									"key": "idMagicien",
+									"value": ""
+								},
+								{
+									"key": "idGrimoire",
+									"value": ""
+								},
+								{
+									"key": "idSort",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

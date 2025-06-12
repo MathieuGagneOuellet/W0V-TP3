@@ -37,7 +37,8 @@
     "ecole_non_autorisee": "The wizard does not master this school of magic...",
     "grimoire_deja_possede": "The grimoire is already in the wizard's list...",
     "ajout_sort_succes": "Spell successfully added to the grimoire!",
-    "sort_non_disponible": "This spell is not available for this wizard..."
+    "sort_non_disponible": "This spell is not available for this wizard...",
+    "suprimer_sort_succes": "Spell successfully removed from the grimoire!"
   },
   "etiquette": {
     "nom_erreur": "ErrorName",

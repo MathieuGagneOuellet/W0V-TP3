@@ -25,12 +25,92 @@ const ControleurGrimoire = {
         res.status(201).json({
         ApiMessage: req.t("reponses.creer_grimoire_succes"),
         objet: grimoire
-      });
-    })
-    .catch((erreur) => next(erreur));
-  }
+        });
+      })
+      .catch((erreur) => next(erreur));
+  },
 
+  ajouterSort: (req, res, next) => {
+    const idMagicien = req.params.idMagicien;
+    const idGrimoire = req.params.idGrimoire;
+    const idSort = req.params.idSort;
 
+    Grimoire.ajouterSortGrimoire(idMagicien, idGrimoire, idSort)
+      .then((grimoire) => {
+        grimoireLogs.info("Sort ajouté au grimoire.", {
+          method: {http: req.method, status: 200},
+          url: req.originalUrl,
+          user: req.utilisateur ? req.utilisateur.username: "anonyme",
+          objetId: grimoire.id,
+          ajout: idSort
+        });
+
+        res.status(200).json({
+          ApiMessage: req.t("reponses.ajouter_sort_grimoire_succes"),
+          objet: grimoire
+        });
+      })
+      .catch((erreur) => next(erreur));
+  },
+
+  retirerSort: (req, res, next) => {
+    const {idMagicien, idGrimoire, idSort} = req.params;
+
+    Grimoire.retirerSortGrimoire(idMagicien, idGrimoire, idSort)
+      .then((grimoire) => {
+        grimoireLogs.info("Sort retiré du grimoire.", {
+        method: {http: req.method, status: 200},
+        url: req.originalUrl,
+        user: req.utilisateur ? req.utilisateur.username : "anonyme",
+        objetId: grimoire.id,
+        });
+        res.status(200).json({
+          ApiMessage: req.t("reponses.retirer_sort_grimoire_succes"),
+          objet: grimoire
+        })
+      })
+      .catch((erreur) => next(erreur));
+  },
+
+  acquerir: (req,res, next) => {
+    const {idMagicien, idGrimoire} = req.params;
+
+    Grimoire.acquerirGrimoire(idMagicien, idGrimoire)
+      .then((magicien) => {
+        grimoireLogs.info("Grimoire acquis par le magicien", {
+          method: { http: req.method, status: 200 },
+          url: req.originalUrl,
+          user: req.utilisateur ? req.utilisateur.username : "anonyme",
+          objetId: magicien.id
+        });
+
+        res.status(200).json({
+          ApiMessage: req.t("reponses.acquerir_grimoire_succes"),
+          objet: magicien
+        });
+      })
+      .catch((erreur) => next(erreur));
+  },
+  
+  retirer: (req,res, next) => {
+    const {idMagicien, idGrimoire} = req.params;
+
+    Grimoire.retirerGrimoire(idMagicien, idGrimoire)
+      .then((magicien) => {
+        grimoireLogs.info("Grimoire retiré du magicien", {
+          method: { http: req.method, status: 200 },
+          url: req.originalUrl,
+          user: req.utilisateur ? req.utilisateur.username : "anonyme",
+          objetId: magicien.id
+        });
+
+        res.status(200).json({
+          ApiMessage: req.t("reponses.retirer_grimoire_succes"),
+          objet: magicien
+        });
+      })
+      .catch((erreur) => next(erreur));
+  },
 
 }
 

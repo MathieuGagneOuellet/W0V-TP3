@@ -28,7 +28,7 @@ class Utilisateur {
     }
 
     return {
-      id: this._id.toString(),
+      id: this._id,
       [trad('etiquette.nom_utilisateur', "nom_utilisateur")]: this.nomUtilisateur,
       [trad('etiquette.mot_de_passe', "mot_de_passe")]: this.motDePasse,
       [trad('etiquette.role', "role")]: this.role,
@@ -114,7 +114,7 @@ class Utilisateur {
 
       const utilisateurs = [];
       utilisateursDb.forEach(u => {
-        u = new Utilisateur(u2);
+        u = new Utilisateur(u);
         utilisateurs.push(u);
       });
 

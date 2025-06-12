@@ -4,7 +4,7 @@ import Utilisateur from '../model/Utilisateur/Utilisateur.js';
 import ErrorHandler from '../middleware/ErrorHandler.js';
 
 const ControleurUtilisateur = {
-  creerUnCompte(req, res, next) { // VERIFIED
+  creerUnCompte(req, res, next) {
     const requete = req.body;
     Utilisateur.creerUtilisateur(requete)
       .then((utilisateur) => {

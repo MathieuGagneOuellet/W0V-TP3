@@ -23,9 +23,44 @@ const ControleurSort = {
                     objet: sort
                 });
             })
-            .catch((erreur) => {
-                next(erreur);
-            });
+            .catch((erreur) => next(erreur));
+    },
+    supprimer: (req, res, next) => {
+        const { idMagicien, idSort } = req.params;
+        Sort.supprimerSortAvecId(idMagicien, idSort)
+            .then(() => {
+                sortLogs.info("Sort supprimé avec succès.", {
+                    method: { http: req.method, status: 200 },
+                    url: req.originalUrl,
+                    user: req.utilisateur ? req.utilisateur.username : "anonyme",
+                    objetId: idSort
+                });
+
+                res.status(200).json({
+                    ApiMessage: req.t("reponses.supprimer_sort_succes"),
+                });
+            })
+            .catch((erreur) => next(erreur));
+    },
+    lancer: (req, res, next) => {
+        const { idMagicien, idSort } = req.params;
+
+        Sort.lancerSort(idMagicien, idSort)
+            .then((resultat) => {
+                sortLogs.info("Sort lancé!", {
+                    method: { http: req.method, status: 200 },
+                    url: req.originalUrl,
+                    user: req.utilisateur ? req.utilisateur.username : "anonyme",
+                    objetId: idSort,
+                });
+                res.status(200).json({
+                    ApiMessage: req.t("reponses.lancer_sort_succes"),
+                    objet: resultat,
+                })
+
+
+            })
+            .catch((erreur) => next(erreur));
     }
 }
 
